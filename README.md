@@ -2,6 +2,10 @@
 
 An android application for setting personalized alarms based on the users 
 upcoming appointments in his calendar.
+
+The main user is a person who has a non regular schedule. The main value for
+the customer is to avoid checking the calendar every day and thereafter set an 
+alarm.
   
 ## Minimal viable product
 - The app should read events from the users calendar and set an alarm based off
