@@ -38,7 +38,7 @@ public class AlarmActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         PowerManager pm = (PowerManager) getApplicationContext().getSystemService(Context.POWER_SERVICE);
-        wakeLock = pm.newWakeLock((PowerManager.PARTIAL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "MyService");
+        wakeLock = pm.newWakeLock((PowerManager.PARTIAL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "SleepPal");
         wakeLock.acquire();
 
         Bundle extras = getIntent().getExtras();
@@ -69,10 +69,10 @@ public class AlarmActivity extends FragmentActivity {
         anim.setRepeatCount(Animation.INFINITE);
         anim.setDuration(50);
         anim.setRepeatMode(Animation.REVERSE);
-        alarmClock.startAnimation(anim);
 
 
         if(!silent){
+            alarmClock.startAnimation(anim);
             Intent resultIntent = new Intent(this, AlarmActivity.class);
             PendingIntent pendingIntent =
                     PendingIntent.getActivity(
@@ -84,7 +84,7 @@ public class AlarmActivity extends FragmentActivity {
 
             Notification notification = new Notification.Builder(this)
                     .setContentTitle(getString(R.string.app_name))
-                    .setContentText("Press here to dismiss")
+                    .setContentText(getString(R.string.dismiss_message))
                     .setSmallIcon(R.drawable.notification)
                     .setContentIntent(pendingIntent)
                     .setOngoing(true)
@@ -157,7 +157,7 @@ public class AlarmActivity extends FragmentActivity {
         snooze.putExtra("silent", false);
 
         SharedPreferences sharedPref = getSharedPreferences(getString(R.string.shared_pref_key), Context.MODE_PRIVATE);
-        String snoozeTime = sharedPref.getString(String.valueOf(R.id.snooze_time), getString(R.string.snooze_time_default));
+        String snoozeTime = sharedPref.getString(String.valueOf(R.id.snooze_time), "");
 
         int m = Integer.parseInt(snoozeTime.split(":")[0]);
         int s = Integer.parseInt(snoozeTime.split(":")[1]);
@@ -186,7 +186,6 @@ public class AlarmActivity extends FragmentActivity {
                 .setContentTitle(getString(R.string.snoozing_ongoing_message) + CalendarUpdate.calendarNicePrint(now))
                 .setContentText(getString(R.string.dismiss_message))
                 .setSmallIcon(R.drawable.ic_launcher)
-                        // .setFullScreenIntent(pendingIntent, true)
                 .setContentIntent(pendingIntent)
                 .setOngoing(true)
                 .build();

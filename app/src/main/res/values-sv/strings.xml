@@ -30,18 +30,13 @@
     <string name="dismiss">Stäng av alarm</string>
     <string name="snooze">Snooza</string>
 
-    <!-- Default values -->
-    <string name="latest_wake_up_time_default">10:00</string>
-    <string name="time_before_wake_up_default">01:00</string>
-    <string name="time_before_sleep_default">01:00</string>
-    <string name="snooze_time_default">09:00</string>
-    <string name="sleep_time">07:00</string>
-
     <!-- Notifcations -->
     <string name="next_alarm">Nästa alarm </string>
     <string name="sleep_notif_first">"Gå och lägg dig "</string>
     <string name="sleep_notif_last">" för att få tillräcklig sömn."</string>
 
+    <string name="snoozing_ongoing_message">"Snoozar - ringer igen "</string>
+    <string name="dismiss_message">Klicka här för att stänga av</string>
     <!-- Misc -->
     <string name="ringtonepath">ringtonepath</string>
     <string name="monday_abbr">Mån</string>

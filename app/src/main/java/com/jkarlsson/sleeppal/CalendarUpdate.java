@@ -55,8 +55,8 @@ public class CalendarUpdate extends BroadcastReceiver {
         if(AlarmActivity.snoozing) return;
 
         SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.shared_pref_key), Context.MODE_PRIVATE);
-        String time1 = sharedPref.getString(String.valueOf(R.id.latest_wake_up_time), context.getString(R.string.latest_wake_up_time_default));
-        String time2 = sharedPref.getString(String.valueOf(R.id.time_before_wake_up), context.getString(R.string.time_before_wake_up_default));
+        String time1 = sharedPref.getString(String.valueOf(R.id.latest_wake_up_time),  "");
+        String time2 = sharedPref.getString(String.valueOf(R.id.time_before_wake_up), "");
 
         Boolean eventAlarm = sharedPref.getBoolean(String.valueOf(R.id.alarm_appointments), true);
         Boolean everyDayAlarm = sharedPref.getBoolean(String.valueOf(R.id.alarm_no_appointments), true);
@@ -202,7 +202,7 @@ public class CalendarUpdate extends BroadcastReceiver {
                                 0//PendingIntent.FLAG_UPDATE_CURRENT
                         );
 
-                String beforeSleep = sharedPref.getString(String.valueOf(R.id.time_before_sleep_input), context.getString(R.string.time_before_sleep_default));
+                String beforeSleep = sharedPref.getString(String.valueOf(R.id.time_before_sleep_input), "");
                 String sleepHours = sharedPref.getString("sleep_hours", context.getString(R.string.sleep_time));
 
                 int h = Integer.parseInt(beforeSleep.split(":")[0]);

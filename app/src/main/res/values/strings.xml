@@ -31,10 +31,6 @@
     <string name="snooze">Snooze</string>
 
     <!-- Default values -->
-    <string name="latest_wake_up_time_default">10:00</string>
-    <string name="time_before_wake_up_default">01:00</string>
-    <string name="time_before_sleep_default">01:00</string>
-    <string name="snooze_time_default">09:00</string>
     <string name="sleep_time">08:00</string>
 
     <!-- Notifications -->
@@ -45,8 +41,7 @@
     <string name="snoozing_ongoing_message">"Snoozing - ringing again "</string>
     <string name="dismiss_message">Press here to dismiss</string>
 
-    <!-- Misc
-    <string name="ringtonepath">ringtonepath</string>-->
+    <!-- Misc -->
     <string name="monday_abbr">Mon</string>
     <string name="tuesday_abbr">Tue</string>
     <string name="wednesday_abbr">Wed</string>

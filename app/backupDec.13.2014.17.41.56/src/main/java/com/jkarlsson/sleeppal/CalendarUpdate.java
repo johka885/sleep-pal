@@ -343,7 +343,7 @@ public class CalendarUpdate extends BroadcastReceiver {
                             0
                     );
 
-            String beforeSleep = sharedPref.getString(String.valueOf(R.id.time_before_sleep_input), context.getString(R.string.time_before_sleep_default));
+            String beforeSleep = sharedPref.getString(String.valueOf(R.id.time_before_sleep_input), "");
             String sleepHours = sharedPref.getString("sleep_hours", context.getString(R.string.sleep_time));
 
             int h = Integer.parseInt(beforeSleep.split(":")[0]);

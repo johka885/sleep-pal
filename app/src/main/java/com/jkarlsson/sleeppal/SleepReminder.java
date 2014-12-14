@@ -30,7 +30,7 @@ public class SleepReminder extends Service {
         Context context = getApplicationContext();
 
         SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.shared_pref_key), Context.MODE_PRIVATE);
-        String beforeSleep = sharedPref.getString(String.valueOf(R.id.time_before_sleep_input), context.getString(R.string.time_before_sleep_default));
+        String beforeSleep = sharedPref.getString(String.valueOf(R.id.time_before_sleep_input), "");
 
         int h = Integer.parseInt(beforeSleep.split(":")[0]);
         int m = Integer.parseInt(beforeSleep.split(":")[1]);

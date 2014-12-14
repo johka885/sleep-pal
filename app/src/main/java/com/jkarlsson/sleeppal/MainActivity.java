@@ -54,10 +54,9 @@ public class MainActivity extends LeanplumFragmentActivity {
         Leanplum.enableVerboseLoggingInDevelopmentMode();
         Leanplum.start(this);
 
-
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Don't load views before variables are fetched from Leanplum
         Leanplum.addStartResponseHandler(new StartCallback() {
             @Override
             public void onResponse(boolean success) {
@@ -70,6 +69,7 @@ public class MainActivity extends LeanplumFragmentActivity {
         Intent i = new Intent("com.jkarlsson.sleeppal.SETTINGS_CHANGED");
         sendBroadcast(i);
 
+        super.onCreate(savedInstanceState);
     }
 
     private void setButtonColors() {
