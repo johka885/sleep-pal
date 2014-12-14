@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- App name etc. -->
+    <string name="app_name">Sleep Pal</string>
+    <string name="action_settings">Inställningar</string>
+    <string name="shared_pref_key">com.jkarlsson.sleeppal.settings</string>
+
+    <!-- MainActicity / Settings -->
+    <string name="notification_settings">Meddela mig</string>
+    <string name="time_before_start">timmar före mitt första möte</string>
+    <string name="time_before_sleep">timmar före jag ska sova</string>
+    <string name="latest_wake_up">om jag inte har några möten.</string>
+
+    <string name="alarm_settings">Inställningar för alarm</string>
+    <string name="alarm_tone">Alarmsignal:</string>
+    <string name="vibrate">Vibrera</string>
+    <string name="snooze_time">Snooze tid:</string>
+    <string name="select_time">Välj tid</string>
+
+    <string name="days_to_wake_up">Väck mig följande dagar</string>
+
+    <!-- AlarmActivity -->
+    <string name="title_activity_alarm">Alarm</string>
+    <string name="good_morning">God morgon!</string>
+    <string name="dismiss">Stäng av alarm</string>
+    <string name="snooze">Snooza</string>
+
+    <!-- Default values -->
+    <string name="latest_wake_up_time_default">10:00</string>
+    <string name="time_before_wake_up_default">01:00</string>
+    <string name="time_before_sleep_default">01:00</string>
+    <string name="snooze_time_default">09:00</string>
+    <string name="sleep_time">08:00</string>
+
+    <!-- Notifcations -->
+    <string name="next_alarm">Nästa alarm </string>
+    <string name="sleep_notif_first">"Gå och lägg dig "</string>
+    <string name="sleep_notif_last">" för att få tillräckligt med sömn."</string>
+
+    <!-- Misc -->
+    <string name="ringtonepath">ringtonepath</string>
+    <string name="monday_abbr">Mån</string>
+    <string name="tuesday_abbr">Tis</string>
+    <string name="wednesday_abbr">Ons</string>
+    <string name="thursday_abbr">Tors</string>
+    <string name="friday_abbr">Fre</string>
+    <string name="saturday_abbr">Lör</string>
+    <string name="sunday_abbr">Sön</string>
+
+</resources>

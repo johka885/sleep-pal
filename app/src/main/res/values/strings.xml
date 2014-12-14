@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- App name etc. -->
+    <string name="app_name">Sleep Pal</string>
+    <string name="action_settings">Settings</string>
+    <string name="shared_pref_key">com.jkarlsson.sleeppal.settings</string>
+
+    <!-- MainActicity / Settings -->
+    <string name="notification_settings">Notify me</string>
+    <string name="time_before_start">hours before my first appointment</string>
+    <string name="time_before_sleep">hours before going to sleep</string>
+    <string name="latest_wake_up">if no appointments.</string>
+
+    <string name="alarm_settings">Alarm settings</string>
+    <string name="alarm_tone">Alarm tone:</string>
+    <string name="vibrate">Vibrate</string>
+    <string name="snooze_time">Snooze time:</string>
+    <string name="select_time">Select time</string>
+
+    <string name="days_to_wake_up">Wake me up the following days</string>
+    <string name="preview_alarm">Preview alarm</string>
+
+    <string name="select_ringtone">Select alarm tone</string>
+    <string name="silent">Silent</string>
+
+    <!-- AlarmActivity -->
+    <string name="title_activity_alarm">Alarm</string>
+    <string name="good_morning">Good Morning!</string>
+    <string name="dismiss">Dismiss alarm</string>
+    <string name="snooze">Snooze</string>
+
+    <!-- Default values -->
+    <string name="latest_wake_up_time_default">10:00</string>
+    <string name="time_before_wake_up_default">01:00</string>
+    <string name="time_before_sleep_default">01:00</string>
+    <string name="snooze_time_default">09:00</string>
+    <string name="sleep_time">08:00</string>
+
+    <!-- Notifications -->
+    <string name="next_alarm">Next alarm </string>
+    <string name="sleep_notif_first">"Go to bed "</string>
+    <string name="sleep_notif_last">" to get enough sleep."</string>
+
+    <string name="snoozing_ongoing_message">"Snoozing - ringing again "</string>
+    <string name="dismiss_message">Press here to dismiss</string>
+
+    <!-- Misc
+    <string name="ringtonepath">ringtonepath</string>-->
+    <string name="monday_abbr">Mon</string>
+    <string name="tuesday_abbr">Tue</string>
+    <string name="wednesday_abbr">Wed</string>
+    <string name="thursday_abbr">Thu</string>
+    <string name="friday_abbr">Fri</string>
+    <string name="saturday_abbr">Sat</string>
+    <string name="sunday_abbr">Sun</string>
+    <string name="no_upcoming_events">No upcoming events.</string>
+
+</resources>
