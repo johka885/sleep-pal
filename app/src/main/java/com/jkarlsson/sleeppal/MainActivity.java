@@ -180,22 +180,18 @@ public class MainActivity extends LeanplumFragmentActivity {
                 double clock = Double.parseDouble(hours) + Double.parseDouble(minutes)/60;
 
                 int id = view1.getId();
-                double defaultClock;
+                double defaultClock = Double.parseDouble(beforeWakeUp.split(":")[0]) + Double.parseDouble(beforeWakeUp.split(":")[1])/60;
                 switch(id){
                     case R.id.time_before_wake_up:
-                        defaultClock = Double.parseDouble(beforeWakeUp.split(":")[0]) + Double.parseDouble(beforeWakeUp.split(":")[1])/60;
                         Leanplum.track("timeBeforeWakeUpChanged", clock < defaultClock ? -1 : 1);
                         break;
                     case R.id.time_before_sleep_input:
-                        defaultClock = Double.parseDouble(beforeSleep.split(":")[0]) + Double.parseDouble(beforeSleep.split(":")[1])/60;
                         Leanplum.track("timeBeforeSleepChanged", clock < defaultClock ? -1 : 1);
                         break;
                     case R.id.latest_wake_up_time:
-                        defaultClock = Double.parseDouble(latestWakeUp.split(":")[0]) + Double.parseDouble(latestWakeUp.split(":")[1])/60;
                         Leanplum.track("latestWakeUpTimeChanged", clock < defaultClock ? -1 : 1);
                         break;
                     case R.id.snooze_time:
-                        defaultClock = Double.parseDouble(snoozeTime.split(":")[0]) + Double.parseDouble(snoozeTime.split(":")[1])/60;
                         Leanplum.track("snoozeTimeChanged", clock < defaultClock ? -1 : 1);
                         break;
                 }
@@ -275,7 +271,7 @@ public class MainActivity extends LeanplumFragmentActivity {
     private Handler handler = new Handler();
 
     public void previewAlarm(View view) {
-        Toast.makeText(this, "Alarm will sound in 5 seconds", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, getString(R.string.alarm_preview_toast_msg), Toast.LENGTH_LONG).show();
         Leanplum.track("alarmPreviewed");
         handler.postDelayed(mUpdateTimeTask, 5000);
     }

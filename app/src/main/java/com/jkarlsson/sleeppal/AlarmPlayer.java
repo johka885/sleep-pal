@@ -51,7 +51,7 @@ public class AlarmPlayer extends Service {
         }
 
         v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        long[] pattern = {0, 1000, 600};
+        long[] pattern = {0, 1000, 1000};
 
         Boolean vibrate = sharedPref.getBoolean(String.valueOf(R.id.vibrate), true);
         if(v.hasVibrator() && vibrate)

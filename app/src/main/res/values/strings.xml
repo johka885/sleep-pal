@@ -20,6 +20,7 @@
 
     <string name="days_to_wake_up">Wake me up the following days</string>
     <string name="preview_alarm">Preview alarm</string>
+    <string name="alarm_preview_toast_msg">Alarm will sound in 5 seconds</string>
 
     <string name="select_ringtone">Select alarm tone</string>
     <string name="silent">Silent</string>

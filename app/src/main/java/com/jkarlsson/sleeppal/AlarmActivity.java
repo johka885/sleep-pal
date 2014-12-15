@@ -42,7 +42,7 @@ public class AlarmActivity extends FragmentActivity {
         wakeLock.acquire();
 
         Bundle extras = getIntent().getExtras();
-        Boolean silent = (extras != null) && getIntent().getExtras().getBoolean("silent", false);
+        Boolean silent = (extras != null) && extras.getBoolean("silent", false);
 
         window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);

@@ -20,6 +20,7 @@
 
     <string name="days_to_wake_up">Väck mig följande dagar</string>
     <string name="preview_alarm">Testa alarmet</string>
+    <string name="alarm_preview_toast_msg">Alarmet startar om 5 sekunder</string>
 
     <string name="select_ringtone">Välj alarmsignal</string>
     <string name="silent">Ljudlös</string>
