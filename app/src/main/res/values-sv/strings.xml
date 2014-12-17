@@ -13,10 +13,18 @@
     <string name="latest_wake_up">om jag inte har några möten.</string>
 
     <string name="alarm_settings">Inställningar för alarm</string>
-    <string name="alarm_tone">Alarmsignal:</string>
+    <string name="alarm_tone">Alarmsignal</string>
     <string name="vibrate">Vibrera</string>
-    <string name="snooze_time">Snooze tid:</string>
+    <string name="snooze_time">Snooze tid</string>
     <string name="select_time">Välj tid</string>
+    <string name="increasing">Stegrande</string>
+    <string name="dismiss_method">Avstängningsmetod</string>
+    <string name="select_dismiss_method">Hur vill du stänga av alarmet?</string>
+    <string name="select_difficulty">Välj svårighetsgrad</string>
+    <string name="press_button">Knapptryckning</string>
+    <string name="math_problem">Matteupgift</string>
+    <string name="enter_text">Skriv in text</string>
+    <string name="turn_on_light">Tänd en lampa</string>
 
     <string name="days_to_wake_up">Väck mig följande dagar</string>
     <string name="preview_alarm">Testa alarmet</string>
@@ -30,6 +38,10 @@
     <string name="good_morning">God morgon!</string>
     <string name="dismiss">Stäng av alarm</string>
     <string name="snooze">Snooza</string>
+
+    <string name="closer_to_light_message">Håll skärmen närmare ljuskällan</string>
+    <string name="time_to_get_up">Dags att stiga upp!</string>
+    <string name="point_toward_light_instruction">Rikta skärmen mot en ljuskälla för att stänga av</string>
 
     <!-- Notifcations -->
     <string name="next_alarm">Nästa alarm </string>
@@ -50,4 +62,11 @@
 
     <string name="no_upcoming_events">Inga kommande händelser.</string>
 
+    <string name="difficulty_easy">Lätt</string>
+    <string name="difficulty_normal">Normal</string>
+    <string name="difficulty_hard">Svår</string>
+
+
+    <string name="incorrect_answer">Fel, försök igen!</string>
+    <string name="alphabet">ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖabcdefghijklmnopqrstuvwxyzåäö</string>
 </resources>

@@ -13,10 +13,18 @@
     <string name="latest_wake_up">if no appointments.</string>
 
     <string name="alarm_settings">Alarm settings</string>
-    <string name="alarm_tone">Alarm tone:</string>
+    <string name="alarm_tone">Alarm tone</string>
     <string name="vibrate">Vibrate</string>
-    <string name="snooze_time">Snooze time:</string>
+    <string name="snooze_time">Snooze time</string>
     <string name="select_time">Select time</string>
+    <string name="increasing">Increasing</string>
+    <string name="dismiss_method">Dismiss method</string>
+    <string name="select_dismiss_method">Select dismiss method</string>
+    <string name="select_difficulty">Select difficulty</string>
+    <string name="press_button">Press button</string>
+    <string name="math_problem">Math task</string>
+    <string name="enter_text">Enter text</string>
+    <string name="turn_on_light">Turn on light</string>
 
     <string name="days_to_wake_up">Wake me up the following days</string>
     <string name="preview_alarm">Preview alarm</string>
@@ -30,6 +38,10 @@
     <string name="good_morning">Good Morning!</string>
     <string name="dismiss">Dismiss alarm</string>
     <string name="snooze">Snooze</string>
+
+    <string name="closer_to_light_message">Put screen closer to the light source</string>
+    <string name="time_to_get_up">Time to get up!</string>
+    <string name="point_toward_light_instruction">Point screen towards a light source to dismiss the alarm</string>
 
     <!-- Default values -->
     <string name="sleep_time">08:00</string>
@@ -50,6 +62,14 @@
     <string name="friday_abbr">Fri</string>
     <string name="saturday_abbr">Sat</string>
     <string name="sunday_abbr">Sun</string>
+
     <string name="no_upcoming_events">No upcoming events.</string>
+
+    <string name="difficulty_easy">Easy</string>
+    <string name="difficulty_normal">Normal</string>
+    <string name="difficulty_hard">Hard</string>
+
+    <string name="incorrect_answer">Incorrect, try again!</string>
+    <string name="alphabet">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz</string>
 
 </resources>

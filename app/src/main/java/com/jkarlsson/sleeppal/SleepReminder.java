@@ -54,8 +54,6 @@ public class SleepReminder extends Service {
                 .setDeleteIntent(pi)
                 .build();
 
-
-        Toast.makeText(this, "notifying", Toast.LENGTH_LONG).show();
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(id, notification);
 

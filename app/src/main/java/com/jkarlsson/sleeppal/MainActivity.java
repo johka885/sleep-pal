@@ -1,11 +1,18 @@
 package com.jkarlsson.sleeppal;
 
+import android.app.AlertDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Handler;
@@ -15,6 +22,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -24,10 +33,13 @@ import com.leanplum.activities.LeanplumFragmentActivity;
 import com.leanplum.annotations.Variable;
 import com.leanplum.callbacks.StartCallback;
 
+import javax.xml.transform.dom.DOMSource;
+
 public class MainActivity extends LeanplumFragmentActivity {
 
     EditText alarmTone;
     RingtoneManager ringtoneManager;
+    SeekBar seekBar;
 
     //Default values set from Leanplum for ab-testing
     @Variable public static String beforeWakeUp = "01:30";
@@ -61,14 +73,37 @@ public class MainActivity extends LeanplumFragmentActivity {
             @Override
             public void onResponse(boolean success) {
                 findViewById(R.id.wrapper_layout).setVisibility(View.VISIBLE);
+                seekBar = (SeekBar) findViewById(R.id.volume_changer);
                 loadDefaultValues();
                 setButtonColors();
+
+
+                seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        TextView volume = (TextView) findViewById(R.id.volume);
+                        volume.setText(progress * 10 + "%");
+
+                        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.shared_pref_key), Context.MODE_PRIVATE);
+                        SharedPreferences.Editor edit = sharedPref.edit();
+                        edit.putInt(String.valueOf(R.id.volume), seekBar.getProgress());
+                        edit.apply();
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+                    }
+                });
+
+                Intent i = new Intent("com.jkarlsson.sleeppal.SETTINGS_CHANGED");
+                sendBroadcast(i);
             }
         });
-
-        Intent i = new Intent("com.jkarlsson.sleeppal.SETTINGS_CHANGED");
-        sendBroadcast(i);
-
         super.onCreate(savedInstanceState);
     }
 
@@ -89,10 +124,13 @@ public class MainActivity extends LeanplumFragmentActivity {
         loadDefaultTime(R.id.snooze_time, snoozeTime);
         loadDefaultTime(R.id.latest_wake_up_time, latestWakeUp);
 
+        loadDefaultDismissMethod(R.id.dismiss_method, DismissType.PRESS_BUTTON);
+
         loadDefaultCheckbox(R.id.vibrate, isVibrating);
         loadDefaultCheckbox(R.id.alarm_no_appointments, isLatestWakeUpAlarming);
         loadDefaultCheckbox(R.id.alarm_appointments, isAppointmentAlarming);
         loadDefaultCheckbox(R.id.notify_before_sleep, isSleepReminding);
+        loadDefaultCheckbox(R.id.increasing, true);
 
         loadDefaultCheckbox(R.id.alarm_monday, true);
         loadDefaultCheckbox(R.id.alarm_tuesday, true);
@@ -101,6 +139,25 @@ public class MainActivity extends LeanplumFragmentActivity {
         loadDefaultCheckbox(R.id.alarm_friday, true);
         loadDefaultCheckbox(R.id.alarm_saturday, true);
         loadDefaultCheckbox(R.id.alarm_sunday, true);
+
+        loadDefaultSlider(R.id.volume, 10);
+    }
+
+    private void loadDefaultSlider(int id, int defaultValue) {
+        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.shared_pref_key), Context.MODE_PRIVATE);
+        int volume = sharedPref.getInt(String.valueOf(id), defaultValue);
+        if(!sharedPref.contains(String.valueOf(id))){
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putInt(String.valueOf(id), volume);
+            editor.apply();
+        }
+
+        seekBar.setMax(0);
+        seekBar.setMax(10);
+        seekBar.setProgress(volume);
+
+        TextView volumeText = (TextView) findViewById(R.id.volume);
+        volumeText.setText(volume * 10 + "%");
     }
 
     private void loadDefaultCheckbox(int id, Boolean defaultValue) {
@@ -128,6 +185,25 @@ public class MainActivity extends LeanplumFragmentActivity {
         }
         EditText editText = (EditText) findViewById(id);
         editText.setText(savedValue);
+    }
+
+    private void loadDefaultDismissMethod(int id, int defaultValue) {
+        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.shared_pref_key), Context.MODE_PRIVATE);
+        int savedValue = sharedPref.getInt(String.valueOf(id), defaultValue);
+        int difficulty = sharedPref.getInt("dismissDifficulty", AlarmActivity.Difficulty.NORMAL);
+
+        if(!sharedPref.contains(String.valueOf(id))){
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putInt(String.valueOf(id), defaultValue);
+            editor.apply();
+        }
+        EditText editText = (EditText) findViewById(id);
+        String dismissType = DismissType.printType(this, savedValue);
+
+        if(DismissType.hasDifficulty(savedValue)) {
+            dismissType += "( " + AlarmActivity.Difficulty.printType(this, difficulty) + ")";
+        }
+        editText.setText(dismissType);
     }
 
     private void loadDefaultRingtone(int id, String defaultValue) {
@@ -170,7 +246,6 @@ public class MainActivity extends LeanplumFragmentActivity {
                 SharedPreferences sharedPref = getSharedPreferences(getString(R.string.shared_pref_key), Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putString(String.valueOf(time.getId()), hours + ":" + minutes);
-                editor.apply();
 
                 Intent i = new Intent("com.jkarlsson.sleeppal.SETTINGS_CHANGED");
                 sendBroadcast(i);
@@ -184,17 +259,25 @@ public class MainActivity extends LeanplumFragmentActivity {
                 switch(id){
                     case R.id.time_before_wake_up:
                         Leanplum.track("timeBeforeWakeUpChanged", clock < defaultClock ? -1 : 1);
+                        ((CheckBox) findViewById(R.id.alarm_appointments)).setChecked(true);
+                        editor.putBoolean(String.valueOf(R.id.alarm_appointments), true);
                         break;
                     case R.id.time_before_sleep_input:
                         Leanplum.track("timeBeforeSleepChanged", clock < defaultClock ? -1 : 1);
+                        ((CheckBox) findViewById(R.id.notify_before_sleep)).setChecked(true);
+                        editor.putBoolean(String.valueOf(R.id.notify_before_sleep), true);
                         break;
                     case R.id.latest_wake_up_time:
                         Leanplum.track("latestWakeUpTimeChanged", clock < defaultClock ? -1 : 1);
+                        ((CheckBox) findViewById(R.id.alarm_no_appointments)).setChecked(true);
+                        editor.putBoolean(String.valueOf(R.id.alarm_no_appointments), true);
                         break;
                     case R.id.snooze_time:
                         Leanplum.track("snoozeTimeChanged", clock < defaultClock ? -1 : 1);
                         break;
                 }
+                editor.apply();
+
             }
         }, hour, minute, true);
         mTimePicker.setTitle(getString(R.string.select_time));
@@ -217,6 +300,7 @@ public class MainActivity extends LeanplumFragmentActivity {
         intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_ALARM);
         intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, true);
         intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, true);
+        intent.putExtra(RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM));
         intent.putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, uri);
         startActivityForResult(intent, 1);
     }
@@ -308,6 +392,102 @@ public class MainActivity extends LeanplumFragmentActivity {
             case R.id.alarm_no_appointments:
                 Leanplum.track("noAppointmentsAlarmActivation");
                 break;
+        }
+
+
+    }
+
+    public void showDismissMethodPickerDialog(View view) {
+
+        final String[] dismissMethods = new String[4];
+        dismissMethods[DismissType.PRESS_BUTTON] = DismissType.printType(this, DismissType.PRESS_BUTTON);
+        dismissMethods[DismissType.MATH] =  DismissType.printType(this, DismissType.MATH);
+        dismissMethods[DismissType.CAPTCHA] =  DismissType.printType(this, DismissType.CAPTCHA);
+        dismissMethods[DismissType.SENSOR_LIGHT] =  DismissType.printType(this, DismissType.SENSOR_LIGHT);
+
+        final EditText dismissMethod = (EditText) view;
+
+        final SharedPreferences sharedPref = getSharedPreferences(getString(R.string.shared_pref_key), Context.MODE_PRIVATE);
+        final int preSelected = sharedPref.getInt(String.valueOf(dismissMethod.getId()), 0);
+
+        final String[] difficulties = new String[3];
+        difficulties[AlarmActivity.Difficulty.EASY] = AlarmActivity.Difficulty.printType(this, AlarmActivity.Difficulty.EASY);
+        difficulties[AlarmActivity.Difficulty.NORMAL] = AlarmActivity.Difficulty.printType(this, AlarmActivity.Difficulty.NORMAL);
+        difficulties[AlarmActivity.Difficulty.HARD] = AlarmActivity.Difficulty.printType(this, AlarmActivity.Difficulty.HARD);
+
+
+
+        new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.select_dismiss_method))
+                .setSingleChoiceItems(dismissMethods, preSelected, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        editor.putInt(String.valueOf(dismissMethod.getId()), which);
+                        editor.apply();
+
+                        final String method = dismissMethods[which];
+                        if (DismissType.hasDifficulty(which)) {
+                            int selected = (preSelected == which) ? sharedPref.getInt("dismissDifficulty", AlarmActivity.Difficulty.NORMAL) : AlarmActivity.Difficulty.NORMAL;
+                                new AlertDialog.Builder(MainActivity.this)
+                                        .setTitle(getString(R.string.select_difficulty))
+                                        .setSingleChoiceItems(difficulties, selected, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                SharedPreferences.Editor editor = sharedPref.edit();
+                                                editor.putInt("dismissDifficulty", which);
+                                                editor.apply();
+
+                                                dismissMethod.setText(method + " (" + difficulties[which] + ")");
+                                                dialog.dismiss();
+                                            }
+                                        })
+                                        .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                                            @Override
+                                            public void onCancel(DialogInterface dialog) {
+                                           /* SharedPreferences.Editor editor = sharedPref.edit();
+                                            editor.putInt("dismissDifficulty", AlarmActivity.Difficulty.NORMAL);
+                                            editor.apply();
+
+                                            dismissMethod.setText(method + " (" + difficulties[AlarmActivity.Difficulty.NORMAL] + ")");*/
+                                            }
+                                        })
+                                        .show();
+                        } else {
+                            dismissMethod.setText(dismissMethods[which]);
+                        }
+                        dialog.dismiss();
+                    }
+                }).show();
+
+    }
+
+    public static class DismissType{
+        public static final int PRESS_BUTTON = 0;
+        public static final int MATH = 1;
+        public static final int CAPTCHA = 2;
+        public static final int SENSOR_LIGHT = 3;
+
+        public static String printType(Context c, int type){
+            switch(type){
+                case PRESS_BUTTON:
+                    return c.getString(R.string.press_button);
+                case MATH:
+                    return c.getString(R.string.math_problem);
+                case CAPTCHA:
+                    return c.getString(R.string.enter_text);
+                case SENSOR_LIGHT:
+                    return c.getString(R.string.turn_on_light);
+            }
+            return "";
+        }
+
+        public static boolean hasDifficulty(int type) {
+            if(type == MATH) return true;
+            if(type == CAPTCHA) return true;
+            if(type == SENSOR_LIGHT) return true;
+            return false;
         }
     }
 }
